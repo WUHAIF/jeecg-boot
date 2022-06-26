@@ -11,6 +11,9 @@ import java.util.Map;
  */
 public enum CgformEnum {
 
+    XINYI(1, "xinyi", "/jeecg/code-template-online", "xinyi.one", "新意风格"),
+
+
     /**
      * 单表
      */
