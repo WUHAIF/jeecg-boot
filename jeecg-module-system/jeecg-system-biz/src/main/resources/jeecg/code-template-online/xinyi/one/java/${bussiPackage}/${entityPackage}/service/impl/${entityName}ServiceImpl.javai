@@ -1,0 +1,123 @@
+package ${bussiPackage}.${entityPackage}.service.impl;
+
+
+import com.shine.dfa.common.bean.PageList;
+import com.shine.dfa.common.bean.PageParam;
+import com.shine.dfa.jdbc.pagehelper.DfaPageHelper;
+import com.shine.dfa.runtime.api.annotation.DfaService;
+import com.shine.dfa.sowp.support.constant.TRANS;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+
+/**
+ * @Description: ${tableVo.ftlDescription}
+ * @Author: wuhaifeng
+ * @Date:   ${.now?string["yyyy-MM-dd HH:mm:ss"]}
+ * @Version: V1.0
+ */
+@DfaService
+public class ${entityName}ServiceImpl implements ${entityName}Service {
+
+
+    @Autowired
+    private ${tableName?cap_first}ExtMapper ${tableName?uncap_first}ExtMapper;
+
+	 /**
+	  * 分页列表查询
+	  *
+	  * @param ${entityName?uncap_first}DTO
+	  * @param pageParam
+	  * @return
+	  */
+	 @Override
+	 public PageList<${entityName}VO> query${entityName}ByPage(${entityName}DTO ${entityName?uncap_first}DTO,PageParam pageParam) {
+
+         List<${entityName}VO> list = null;
+	     return DfaPageHelper.getPageList(list);
+	 }
+
+	 /**
+	  * 添加
+	  *
+	  * @param ${entityName?uncap_first}DTO
+	  * @return
+	  */
+	 @Override
+	 @Transactional(value = TRANS.MANAGER_NAME, rollbackFor = Exception.class)
+	 public void add${entityName}(${entityName}DTO ${entityName?uncap_first}DTO) {
+
+         ${tableName?cap_first}PO ${tableName?uncap_first}PO = new ${tableName?cap_first}PO();
+		 BeanUtils.copyProperties(${entityName?uncap_first}DTO,${tableName?uncap_first}PO);
+		 ${tableName?uncap_first}ExtMapper.insert(${tableName?uncap_first}PO);
+
+	 }
+
+	 /**
+	  * 编辑
+	  *
+	  * @param ${entityName?uncap_first}DTO
+	  * @return
+	  */
+	 @Override
+	 @Transactional(value = TRANS.MANAGER_NAME, rollbackFor = Exception.class)
+	 public void update${entityName}(${entityName}DTO ${entityName?uncap_first}DTO) {
+
+         ${tableName?cap_first}PO ${tableName?uncap_first}PO = new ${tableName?cap_first}PO();
+		 BeanUtils.copyProperties(${entityName?uncap_first}DTO,${tableName?uncap_first}PO);
+		 ${tableName?uncap_first}ExtMapper.updateByKey(${tableName?uncap_first}PO);
+
+	 }
+
+	 /**
+	  * 通过id删除
+	  *
+	  * @param id
+	  * @return
+	  */
+	 @Override
+	 @Transactional(value = TRANS.MANAGER_NAME, rollbackFor = Exception.class)
+	 public void delete${entityName}ById(String id){
+
+		 Assert.hasLength(id, "ID不能为空");
+
+	 }
+
+	 /**
+	  * 批量删除
+	  *
+	  * @param idList
+	  * @return
+	  */
+	 @Override
+	 @Transactional(value = TRANS.MANAGER_NAME, rollbackFor = Exception.class)
+	 public void delete${entityName}ByIds(List<String> idList) {
+
+         Assert.state(CollectionUtils.isEmpty(idList), "ID集合不能为空");
+         idList.stream().forEach(id -> delete${entityName}ById(id));
+	 }
+
+	 /**
+	  * 通过id查询
+	  *
+	  * @param ${entityName?uncap_first}DTO
+	  * @return
+	  */
+	 @Override
+	 @Transactional(value = TRANS.MANAGER_NAME, rollbackFor = Exception.class)
+	 public ${entityName}DTO get${entityName}ById(${entityName}DTO ${entityName?uncap_first}DTO) {
+
+         ${tableName?cap_first}PO ${tableName?uncap_first}PO = new ${tableName?cap_first}PO();
+		 BeanUtils.copyProperties(${entityName?uncap_first}DTO,${tableName?uncap_first}PO);
+         ${tableName?cap_first}PO resultPO = ${tableName?uncap_first}ExtMapper.selectOne(${tableName?uncap_first}PO);
+         ${entityName}DTO resultDTO = null;
+         if(resultPO != null){
+            BeanUtils.copyProperties(resultPO,resultDTO);
+         }
+         return resultDTO;
+	 }
+}

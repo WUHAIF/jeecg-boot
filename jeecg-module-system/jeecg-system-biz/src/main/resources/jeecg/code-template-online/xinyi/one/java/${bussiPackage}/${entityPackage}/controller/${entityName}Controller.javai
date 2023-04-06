@@ -1,0 +1,152 @@
+package ${bussiPackage}.${entityPackage}.controller;
+
+import com.shine.dfa.common.bean.PageList;
+import com.shine.dfa.common.bean.PageParam;
+import com.shine.dfa.common.web.epbos.EDataResultModel;
+import com.shine.dfa.common.web.epbos.EDataTablesDataSet;
+import com.shine.dfa.common.web.epbos.EResultModel;
+import com.shine.dfa.runtime.api.annotation.DfaReference;
+import com.shine.dfa.runtime.api.annotation.DfaReferenceBinding;
+import com.shine.dfa.shine.component.autoExport.AutoExportControllerFunction;
+
+import ${bussiPackage}.${entityPackage}.vo.${entityName}VO;
+import ${bussiPackage}.${entityPackage}.service.${entityName}Service;
+import com.shine.dfa.web.session.UserPrincipal;
+import com.shine.dfa.toolkit.model.TableQuery;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+<#assign bpm_flag=false>
+<#list originalColumns as po>
+<#if po.fieldDbName=='bpm_status'>
+  <#assign bpm_flag=true>
+</#if>
+</#list>
+
+ /**
+ * @Description: ${tableVo.ftlDescription}
+ * @Author: wuhaifeng
+ * @Date:   ${.now?string["yyyy-MM-dd HH:mm:ss"]}
+ * @Version: V1.0
+ */
+@Api(tags="${tableVo.ftlDescription}")
+@RestController
+@RequestMapping("/${entityPackage}/${entityName?uncap_first}")
+public class ${entityName}Controller {
+
+    private Logger logger = LoggerFactory.getLogger(${entityName}Controller.class);
+
+	@DfaReference(interfaceType = ${entityName}Service.class, binding = @DfaReferenceBinding(timeout = 7200000), jvmFirst = "true")
+	private ${entityName}Service ${entityName?uncap_first}Service;
+	
+	/**
+	 * 分页列表查询
+	 *
+	 * @param tableQuery
+	 * @param userPrincipal
+	 * @return
+	 */
+	@ApiOperation(value="${tableVo.ftlDescription}-分页列表查询", notes="${tableVo.ftlDescription}-分页列表查询")
+	@AutoExportControllerFunction
+	@PostMapping(value = "/query${entityName}ByPage")
+	public EResultModel query${entityName}ByPage(@RequestBody TableQuery<${entityName}VO> tableQuery,
+								   UserPrincipal userPrincipal) throws Exception {
+
+		PageParam pageParam = tableQuery.getPageParam();
+		${entityName}VO paramsVO = tableQuery.getParams();
+		${entityName}DTO paramsDTO = new ${entityName}DTO();
+		BeanUtils.copyProperties(paramsVO,paramsDTO);
+
+		PageList<${entityName}VO> pageList = ${entityName?uncap_first}Service.query${entityName}ByPage(paramsDTO,pageParam);
+
+        return EDataTablesDataSet.build(pageList);
+	}
+	
+	/**
+	 * 添加
+	 *
+	 * @param ${entityName?uncap_first}VO
+	 * @return
+	 */
+	@ApiOperation(value="${tableVo.ftlDescription}-添加", notes="${tableVo.ftlDescription}-添加")
+	@PostMapping(value = "/add${entityName}")
+	public EResultModel add${entityName}(@RequestBody ${entityName}VO ${entityName?uncap_first}VO) {
+
+        ${entityName}DTO ${entityName?uncap_first}DTO = new ${entityName}DTO();
+		BeanUtils.copyProperties(${entityName?uncap_first}VO,${entityName?uncap_first}DTO);
+		${entityName?uncap_first}Service.add${entityName}(${entityName?uncap_first}DTO);
+		return EDataResultModel.success("添加成功");
+	}
+	
+	/**
+	 * 编辑
+	 *
+	 * @param ${entityName?uncap_first}VO
+	 * @return
+	 */
+	@ApiOperation(value="${tableVo.ftlDescription}-编辑", notes="${tableVo.ftlDescription}-编辑")
+	@PostMapping(value = "/edit${entityName}")
+	public EResultModel edit${entityName}(@RequestBody ${entityName}VO ${entityName?uncap_first}VO) {
+
+        ${entityName}DTO ${entityName?uncap_first}DTO = new ${entityName}DTO();
+		BeanUtils.copyProperties(${entityName?uncap_first}VO,${entityName?uncap_first}DTO);
+		${entityName?uncap_first}Service.update${entityName}(${entityName?uncap_first}DTO);
+		return EDataResultModel.success("编辑成功!");
+	}
+	
+	/**
+	 * 通过id删除
+	 *
+	 * @param ${entityName?uncap_first}VO
+	 * @return
+	 */
+	@ApiOperation(value="${tableVo.ftlDescription}-通过id删除", notes="${tableVo.ftlDescription}-通过id删除")
+	@PostMapping(value = "/delete${entityName}")
+	public EResultModel delete${entityName}(@RequestBody ${entityName}VO ${entityName?uncap_first}VO) {
+		${entityName?uncap_first}Service.delete${entityName}ById(${entityName?uncap_first}VO.getId());
+		return EDataResultModel.success("删除成功!");
+	}
+	
+	/**
+	 * 批量删除
+	 *
+	 * @param ${entityName?uncap_first}VO
+	 * @return
+	 */
+	@ApiOperation(value="${tableVo.ftlDescription}-批量删除", notes="${tableVo.ftlDescription}-批量删除")
+	@PostMapping(value = "/delete${entityName}Batch")
+	public EResultModel delete${entityName}Batch(@RequestBody ${entityName}VO ${entityName?uncap_first}VO) {
+
+		this.${entityName?uncap_first}Service.delete${entityName}ByIds(${entityName?uncap_first}VO.getId_list());
+		return EDataResultModel.success("批量删除成功!");
+	}
+	
+	/**
+	 * 通过id查询
+	 *
+	 * @param ${entityName?uncap_first}VO
+	 * @return
+	 */
+	@ApiOperation(value="${tableVo.ftlDescription}-通过id查询", notes="${tableVo.ftlDescription}-通过id查询")
+	@PostMapping(value = "/query${entityName}ById")
+	public EResultModel query${entityName}ById(@RequestBody ${entityName}VO ${entityName?uncap_first}VO) {
+
+        ${entityName}DTO ${entityName?uncap_first}DTO = new ${entityName}DTO();
+		BeanUtils.copyProperties(${entityName?uncap_first}VO,${entityName?uncap_first}DTO);
+		${entityName}DTO resultDTO = this.${entityName?uncap_first}Service.get${entityName}ById(${entityName?uncap_first}DTO);
+		if(${entityName?uncap_first}DTO == null) {
+			return EDataResultModel.error("未找到对应数据");
+		}
+		${entityName}VO resultVO = new ${entityName}VO();
+        BeanUtils.copyProperties(resultDTO,resultVO);
+		return EDataResultModel.build(${entityName?uncap_first}VO);
+	}
+
+}

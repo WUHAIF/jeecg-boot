@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @date: 2021年02月18日 16:30
  */
 @Slf4j
-@Configuration
+//@Configuration
 public class CodeGenerateDbConfig {
     @Value("${spring.datasource.dynamic.datasource.master.url:}")
     private String url;

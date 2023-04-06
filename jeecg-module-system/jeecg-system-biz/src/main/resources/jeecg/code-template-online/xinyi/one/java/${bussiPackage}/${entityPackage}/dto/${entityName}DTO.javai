@@ -1,0 +1,61 @@
+<#include "/common/utils.ftl">
+package ${bussiPackage}.${entityPackage}.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+/**
+ * @Description: ${tableVo.ftlDescription}
+ * @Author: wuhaifeng
+ * @Date:   ${.now?string["yyyy-MM-dd"]}
+ * @Version: V1.0
+ */
+@ApiModel(value="${tableName}对象", description="${tableVo.ftlDescription}")
+public class ${entityName}DTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    <#list originalColumns as po>
+
+	/**${po.filedComment?replace("(\n)+",";",'r')}*/
+	<#if po.fieldName == primaryKeyField>
+	<#else>
+  		<#if po.fieldDbType =='Date' || po.fieldDbType =='Datetime'>
+			<#if po.classType=='date'>
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+			<#else>
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+			</#if>
+		<#else>
+  		</#if>
+    </#if>
+    <#include "/common/blob-xinyi.ftl">
+	</#list>
+
+    <#list originalColumns as po>
+	/**
+	 * ${po.filedComment?replace("(\n)+",";",'r')}
+	 *
+	 * @return ${po.fieldName}
+	 */
+    <#include "/common/getter.ftl">
+    </#list>
+
+    <#list originalColumns as po>
+	/**
+	 * ${po.filedComment?replace("(\n)+",";",'r')}
+	 *
+	 * @param ${camelToDashed(po.fieldName)?trim}
+	 */
+    <#include "/common/setter.ftl">
+    </#list>
+
+
+}

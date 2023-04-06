@@ -1,0 +1,65 @@
+package ${bussiPackage}.${entityPackage}.service;
+
+import com.shine.dfa.common.bean.PageList;
+import com.shine.dfa.common.bean.PageParam;
+
+import java.util.List;
+
+/**
+ * @Description: ${tableVo.ftlDescription}
+ * @Author: wuhaifeng
+ * @Date:   ${.now?string["yyyy-MM-dd HH:mm:ss"]}
+ * @Version: V1.0
+ */
+public interface ${entityName}Service {
+
+	/**
+	 * 分页列表查询
+	 *
+	 * @param ${entityName?uncap_first}DTO
+	 * @param pageParam
+	 * @return
+	 */
+	 public PageList<${entityName}VO> query${entityName}ByPage(${entityName}DTO ${entityName?uncap_first}DTO,PageParam pageParam);
+
+	/**
+	 * 添加
+	 *
+	 * @param ${entityName?uncap_first}DTO
+	 * @return
+	 */
+	 public void add${entityName}(${entityName}DTO ${entityName?uncap_first}DTO);
+
+	/**
+	 * 编辑
+	 *
+	 * @param ${entityName?uncap_first}DTO
+	 * @return
+	 */
+	 public void update${entityName}(${entityName}DTO ${entityName?uncap_first}DTO);
+
+	/**
+	 * 通过id删除
+	 *
+	 * @param id
+	 * @return
+	 */
+	 public void delete${entityName}ById(String id);
+
+	/**
+	 * 批量删除
+	 *
+	 * @param idList
+	 * @return
+	 */
+	 public void delete${entityName}ByIds(List<String> idList);
+
+	/**
+	 * 通过id查询
+	 *
+	 * @param ${entityName?uncap_first}DTO
+	 * @return
+	 */
+	 public ${entityName}DTO get${entityName}ById(${entityName}DTO ${entityName?uncap_first}DTO);
+
+}

@@ -20,6 +20,17 @@ public enum CgformEnum {
      * 多表
      */
     MANY(2, "many", "/jeecg/code-template-online", "default.onetomany", "经典风格" ,new String[]{"vue"}),
+
+    /**
+     * 单表
+     */
+    XIN_YI_ONE(1, "xin_yi_one", "/jeecg/code-template-online", "xinyi.one", "新意风格", new String[]{"vue3","vue","vue3Native"}),
+
+    /**
+     * 多表
+     */
+    XIN_YI_MANY(2, "xin_yi_many", "/jeecg/code-template-online", "xinyi.onetomany", "新意风格" ,new String[]{"vue"}),
+
     /**
      * 多表（jvxe风格）
      *  */
@@ -40,7 +51,12 @@ public enum CgformEnum {
     /**
      * 树形列表
      */
-    TREE(3, "tree", "/jeecg/code-template-online", "default.tree", "树形列表" ,new String[]{"vue3","vue","vue3Native"});
+    TREE(3, "tree", "/jeecg/code-template-online", "default.tree", "树形列表" ,new String[]{"vue3","vue","vue3Native"}),
+
+    /**
+     * 树形列表
+     */
+    XIN_YI_TREE(3, "xin_yi_tree", "/jeecg/code-template-online", "default.tree", "树形列表" ,new String[]{"vue3","vue","vue3Native"});
 
     /**
      * 类型 1/单表 2/一对多 3/树
